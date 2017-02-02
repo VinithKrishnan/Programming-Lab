@@ -66,7 +66,7 @@ c[0]=carry;
 else
 c.erase(c.begin());
 return c;
-//printnumber(c);
+
 }
 
 vector<int> sub(vector<int> &p,vector<int> &q)
@@ -135,7 +135,7 @@ else
 temp.erase(temp.begin());
 for(int t=0;t<b.size()-1-j;t++)
 temp.push_back(0);
-//printnumber(temp);
+
 ans=add(ans,temp);
 while(ans[0]==0 && ans.size()>1)
 {ans.erase(ans.begin());
@@ -147,43 +147,41 @@ return ans;
 vector<int> div(vector<int> &a,vector<int> &b)
 {vector<int> q;
 int i=b.size()-1;
-if(b.size()>a.size())
+if(b.size()>a.size())//if size of b is greater than size of a,the quotient must be 0
 {vector<int> q(1,0);
 return q;
 }
 vector<int> prod;
 vector<int> rem(a.begin(),a.begin()+b.size()-1);
 while(i<=a.size()-1)
-{//cout<<i<<" ";
+{
 int j=0;
-rem.push_back(a[i]);
-while(rem[0]==0 && rem.size()>1)
+rem.push_back(a[i]);//brings down the next integer in a
+while(rem[0]==0 && rem.size()>1)//removes leading zeroes
 {rem.erase(rem.begin());
 }
-//if(comp(rem,b)==0)
-//break;
 
-while(true)
+
+while(true)//multiplies b from 1 to 9 until the product becomes greater than rem
 {
 vector<int> t(1,j);
  prod= mul(b,t);
- //printnumber(prod);
+
 if(comp(prod,rem)>0)
 break;
 else
 j++;
 }
 
-//cout<<j<<" ";
-//printnumber(rem);
-q.push_back(j-1);
+
+q.push_back(j-1);//adds j-1 to the quotient
 vector<int> t(1,j-1);
-prod=mul(b,t);
-rem=sub(rem,prod);
+prod=mul(b,t);    //multiplies b with j-1 
+rem=sub(rem,prod);//rem stores rem-b*(j-1)
 
 i++;
 }
-while(q[0]==0 && q.size()>1)
+while(q[0]==0 && q.size()>1)//removes leading zeroes
 {q.erase(q.begin());
 }
 return q;
