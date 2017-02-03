@@ -8,11 +8,10 @@ typedef struct node{
     int exp;
     struct node* next;
 }Node;
-Node* t = NULL;
 bool shiftAndCut(Node* ptr);
 void reverseList(Node* head,Node*& listHead);
 Node* getNode(int coeff,int exp);
-Node* makePoly(Node*& head,int coeff,int exp);
+Node* makePoly(Node* head,int coeff,int exp);
 void printPoly(Node* head);
 Node* polyAdd(Node* head1,Node* head2);
 Node* polySub(Node* head1,Node* head2);
@@ -34,7 +33,7 @@ Node* getNode(int coeff,int exp)    {
 }
 
 //LSB is stored first followed by other digits
-Node* makePoly(Node*& head,int coeff,int exp)    {
+Node* makePoly(Node* head,int coeff,int exp)    {
     Node* newNode = getNode(coeff,exp);
     Node* s = head;
     if(s == NULL)    {
@@ -65,7 +64,7 @@ Node* makePoly(Node*& head,int coeff,int exp)    {
     return head;
 }
 
-Node* makePoly1(Node* head,int coeff,int exp)    {
+Node* makePoly1(Node*& head,int coeff,int exp)    {
     Node* newNode = getNode(coeff,exp);
     Node* s = head;
     if(s == NULL)    {
@@ -140,7 +139,7 @@ Node* polySub(Node* head1,Node* head2)  {
     }
     while(s1!=NULL and s2!=NULL)    {
         if(s1->coeff+carry>=s2->coeff)  {
-           head = makePoly(head,s1->coeff-s2->coeff,place++);
+           head = makePoly(head,s1->coeff+carry-s2->coeff,place++);
             carry = 0;
         }
         else    {
@@ -179,12 +178,13 @@ Node* polySub(Node* head1,Node* head2)  {
 
 //Ensure no leading zeros
 int getLength(Node* head)  {
-    int len = 0;
+    int most = 0;
     while(head!=NULL)   {
-            len++;
+            if(head->exp+1 >most)
+            most = head->exp + 1;
             head = head->next;
-        }
-        return len;
+    }
+        return most;
 }
 
 /* Returns  1)List is NULL -> 0
@@ -197,9 +197,9 @@ int cmp(Node* head1,Node* head2)  {
     Node* s2 = head2;
 
     int len_s1 = 0,len_s2 = 0;
-    len_s1 = getLength(head1);
-    len_s2 = getLength(head2);
-    cout<<len_s1<<" "<<len_s1;
+    len_s1 = getLength(s1);
+    len_s2 = getLength(s2);
+    //cout<<"\n"<<len_s1<<" "<<len_s1;
     if(len_s1<len_s2)
             return -1;
     else if(len_s1>len_s2)
@@ -240,23 +240,24 @@ Node* polyMultiply(Node* head1,Node* head2) {
 
 void convertPolyToDigit(Node* head) {
     Node* s = head;
-    int quotient = 0;
-    int carry = 0,borrow = 0;
-    while(s->next!=NULL)  {
-            s->coeff += quotient;
-            quotient = s->coeff/10;
-            s->coeff = s->coeff%10;
-
-    s = s->next;
+    int carry = 0;
+    while(s!=NULL){
+        int val = s->coeff+carry;
+        s->coeff = val%10;
+        carry = val/10;
+        if(s->next==NULL and carry){
+            s->next = getNode(carry,s->exp+1);
+            carry=0;
+        }
+        s = s->next;
     }
-    s->coeff += quotient;
 }
 
 
 void printPolyAsDigit(Node* head)   {
     if(head->next!=NULL)
         printPolyAsDigit(head->next);
-    cout<<head->coeff;
+    cout<<head->coeff<<'('<<head->exp<<')';
 }
 
 //A function to accept a number as string and then convert it into a linkedList with each coefficient representing a digit
@@ -319,9 +320,7 @@ Node* polyDivide()  {
     printPolyAsDigit(rem);
     j = 1;
     while(true) {
-        pro = polyMultiply(
-                           .,makePoly(t,j,0));
-        t = NULL;
+        pro = polyMultiply(head2,makePoly(NULL,j,0));
         if(cmp(rem,pro)<0)
             break;
         else
@@ -331,8 +330,7 @@ Node* polyDivide()  {
     printPolyAsDigit(pro);
     quo = makePoly(quo,j-1,place++);
     cout<<"\n QUO "<<j-1;
-    pro = polyMultiply(head2,makePoly(t,j-1,0));
-    t = NULL;
+    pro = polyMultiply(head2,makePoly(NULL,j-1,0));
     cout<<"\nACTUAL PRO ";
     printPolyAsDigit(pro);
     //////////////////////////////////////////////////
@@ -353,17 +351,16 @@ Node* polyDivide()  {
         temp = temp->next;
         rem_len++;
     }
-    cout<<rem_len<<endl<<head1->coeff<<endl;
-    printPolyAsDigit(rem);
-    cout<<endl;
     rem = makePoly(rem,head1->coeff,0);
     cout<<"\nNEW REMAINDER AFTER DOWN :";
     printPolyAsDigit(rem);
+    cout<<endl;
     shiftAndCut(rem);
     int j = 1;
     while(true) {
-        pro = polyMultiply(head2,makePoly(t,j,0));
-        t = NULL;
+        pro = polyMultiply(head2,makePoly(NULL,j,0));
+        printPolyAsDigit(rem);
+        cout<<" ";
         printPolyAsDigit(pro);
         cout<<" "<<cmp(rem,pro)<<endl;
         if(cmp(rem,pro)<=0)
@@ -376,8 +373,7 @@ Node* polyDivide()  {
     cout<<"got quo"<<endl;
     printPolyAsDigit(quo);
     //shiftAndCut(quo);
-    pro = polyMultiply(head2,makePoly(t,j-1,0));
-    t = NULL;
+    pro = polyMultiply(head2,makePoly(NULL,j-1,0));
     cout<<"\nPRO IS ";
     shiftAndCut(pro);
     printPolyAsDigit(pro);
@@ -413,8 +409,8 @@ bool shiftAndCut(Node* ptr){
 
 void printPolyAsDigitInOrder(Node* head)    {
     if(head == NULL)    return;
-    cout<<head->coeff;
-    printPolyAsDigit(head->next);
+    cout<<head->coeff<<'('<<head->exp<<')'<<" ";
+    printPolyAsDigitInOrder(head->next);
 }
 
 
