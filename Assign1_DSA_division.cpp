@@ -8,6 +8,7 @@ typedef struct node{
     int exp;
     struct node* next;
 }Node;
+
 bool shiftAndCut(Node* ptr);
 void reverseList(Node* head,Node*& listHead);
 Node* getNode(int coeff,int exp);
@@ -139,11 +140,11 @@ Node* polySub(Node* head1,Node* head2)  {
     }
     while(s1!=NULL and s2!=NULL)    {
         if(s1->coeff+carry>=s2->coeff)  {
-           head = makePoly(head,s1->coeff+carry-s2->coeff,place++);
+           head = makePoly(head,(s1->coeff+carry)-s2->coeff,place++);
             carry = 0;
         }
         else    {
-            head = makePoly(head,s1->coeff+carry-s2->coeff+10,place++);
+            head = makePoly(head,(s1->coeff+carry)-s2->coeff+10,place++);
             carry = -1;
             /*Node* temp = s1->next;
             while(temp!=NULL and temp->coeff == 0)  {
@@ -308,10 +309,6 @@ Node* polyDivide()  {
     int place = 0;
     if(l1<l2)   {
         quo = makePoly(quo,0,place++);
-          cout<<"REMAINDER: ";
-        printPolyAsDigitInOrder(head2);
-        cout<<endl<<"quotienT: ";
-        printPolyAsDigitInOrder(quo);
         return quo;
     }
     ///////////////////////////////////////////
@@ -428,18 +425,19 @@ int main()  {
     Node* head3 = NULL;
     Node* head4 = NULL;
     Node* head5 = NULL;
-    
-    /*head1 = getNumAsList();
-    shiftAndCut(head1);
-    printPolyAsDigit(head1);
-    /*head2 = getNumAsList();
-    head3 = polySub(head1,head2);
+    head1 = getNumAsList();
+    head2 = getNumAsList();
+    head4 = polySub(head1,head2);
+    head3 = polyAdd(head1,head2);
+    head5 = polyMultiply(head1,head2);
+    cout<<endl<<"Addition = ";
     printPolyAsDigit(head3);
-    head4 = polyMultiply(head1,head2);
-    cout<<endl;
+    cout<<endl<<"Subtraction =  ";
     printPolyAsDigit(head4);
-    cout<<endl<<cmp(head1,head2)<<endl;
-    */
+    cout<<endl<<"Multiplication = ";
+    printPolyAsDigit(head5);
+    cout<<endl;
     polyDivide();
+    cout<<endl;
     return 1;
 }
