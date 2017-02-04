@@ -308,6 +308,10 @@ Node* polyDivide()  {
     int place = 0;
     if(l1<l2)   {
         quo = makePoly(quo,0,place++);
+          cout<<"REMAINDER: ";
+        printPolyAsDigitInOrder(head2);
+        cout<<endl<<"quotienT: ";
+        printPolyAsDigitInOrder(quo);
         return quo;
     }
     ///////////////////////////////////////////
@@ -424,6 +428,7 @@ int main()  {
     Node* head3 = NULL;
     Node* head4 = NULL;
     Node* head5 = NULL;
+    
     /*head1 = getNumAsList();
     shiftAndCut(head1);
     printPolyAsDigit(head1);
