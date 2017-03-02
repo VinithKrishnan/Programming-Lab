@@ -61,10 +61,13 @@ void PostorderTraversal(Node* root){
 int main(){
 	int i,n,h,d;
 	Node* root=NULL;
-	cout<<"enter number of data :";
-	cin>>n;
-	for(i=0;i<n;i++){
+	cout<<"enter the data(0 to stop) :";
+//	cin>>n;
+     d=1;
+	for(i=0;d!=0;i++){
+		
 		cin>>d;
+		if(d!=0) 
 		root=insert(root,d);
 	}
 	
