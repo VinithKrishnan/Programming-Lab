@@ -1,2 +1,4 @@
 # Programming-Lab
-Good Job Vinith, nicely implemented!
+
+Slogan of Computer Science:
+"Data Structures + Algortihms = Programs!"
