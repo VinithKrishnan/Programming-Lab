@@ -95,18 +95,18 @@ node* right_rotate(node* root,node* y)    {
 
 node* insert_fixup(node* root,node* z)    {
     while(z->p->colour!='B')    {
-        cout<<"Inside while loop and my key is: "<<z->key<<endl;
+        //cout<<"Inside while loop and my key is: "<<z->key<<endl;
        // printTree(root);
-        cout<<"Parent key: "<<z->p->key<<endl;
-        cout<<"GrandParent key: "<<(z->p->p->key)<<endl;
-        cout<<(z->p == z->p->p->left);
+        //cout<<"Parent key: "<<z->p->key<<endl;
+        //cout<<"GrandParent key: "<<(z->p->p->key)<<endl;
+        //cout<<(z->p == z->p->p->left);
         
         if(z->p == z->p->p->left)    {
             
-            cout<<"Inside if loop!\n";
+            //cout<<"Inside if loop!\n";
             node* y = z->p->p->right;
             if(y->colour == 'R') {
-                    cout<<"Uncle is red with key: "<<y->key<<" and my parent is the left child"<<endl;
+               //     cout<<"Uncle is red with key: "<<y->key<<" and my parent is the left child"<<endl;
                     y->colour = 'B';
                     z->p->colour = 'B';
                     z->p->p->colour = 'R';
@@ -114,33 +114,33 @@ node* insert_fixup(node* root,node* z)    {
                 }
             else    { 
                 if (z == z->p->right)  {
-                cout<<"My parent is the left child and I am the right child.\n";
+                //cout<<"My parent is the left child and I am the right child.\n";
                 z = z->p;
                 root = left_rotate(root,z);
                 }
-                cout<<"My parent is the left child and I am the left child\n";
+                //cout<<"My parent is the left child and I am the left child\n";
                 z->p->colour = 'B';
                 z->p->p->colour = 'R';
                 root = right_rotate(root,z->p->p);
             }
         }
         else    {
-            cout<<"Inside else loop\n";
+            //cout<<"Inside else loop\n";
             node* y = z->p->p->left;
             if(y->colour == 'R') {
-                cout<<"Uncle is red and my parent is the right child\n";
+              //  cout<<"Uncle is red and my parent is the right child\n";
                 y->colour = 'B';
                 z->p->colour = 'B';
                 z->p->p->colour = 'R';
                 z = z->p->p;
             }
             else    { 
-                cout<<"My parent is the right child and I am the right child.\n";
+                //cout<<"My parent is the right child and I am the right child.\n";
                 if (z == z->p->left)  {
                 z = z->p;
                 root = right_rotate(root,z);
                 }
-                cout<<"My parent is the right child and I am the left child.\n";
+                //cout<<"My parent is the right child and I am the left child.\n";
                 z->p->colour = 'B';
                 z->p->p->colour = 'R';
                 root = left_rotate(root,z->p->p);
