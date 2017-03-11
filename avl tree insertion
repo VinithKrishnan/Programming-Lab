@@ -77,17 +77,17 @@ int getHeight(Node* root){
      Node* y = x->left;
      Node* T2 = y->right;
  
-    // Perform rotation
+    
     y->right = x;
     x->left = T2;
  
-    // Update heights
+   
     x->height = max(height(x->left), height(x->right))+1;
     y->height = max(height(y->left), height(y->right))+1;
  	
  	//x->height= getHeight(x);
  	//y->height= getHeight(y);
-    // Return new root
+    
     return y;
 }
 
@@ -96,11 +96,11 @@ int getHeight(Node* root){
      Node* y = x->right;
      Node* T2 = y->left;
  
-    // Perform rotation
+    
     y->left = x;
     x->right = T2;
  
-    //  Update heights
+    
     x->height = max(height(x->left), height(x->right))+1;
     y->height = max(height(y->left), height(y->right))+1;
   //   x->height= getHeight(x);
@@ -138,21 +138,20 @@ Node* insert(Node* root, int d){
     if (balance < -1 && d >root->right->data)
         return leftRotate(root);
  
-    // Left Right Case
     if (balance > 1 && d > root->left->data)
     {
      	root->left =  leftRotate(root->left);
         return rightRotate(root);
     }
  
-    // Right Left Case
+  
     if (balance < -1 && d < root->right->data)
     {
         root->right = rightRotate(root->right);
         return leftRotate(root);
     }
  
-    /* return the (unchanged) node pointer */
+    
     return root;
 }
 	
