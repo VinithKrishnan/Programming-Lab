@@ -11,7 +11,7 @@ typedef struct node{
 int height(Node* root)
 {
     if (root == NULL)
-        return 0;
+        return -1;
     else 
     return root->height;
 }
