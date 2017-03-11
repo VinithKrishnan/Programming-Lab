@@ -67,7 +67,7 @@ node* left_rotate(node* root,node* x)    {
     y->p = x->p;
     if(x == root)
         root = y;
-    else if(x = x->p->right)
+    else if(x == x->p->right)
         x->p->right = y;
     else
         x->p->left = y;
@@ -96,17 +96,22 @@ node* right_rotate(node* root,node* y)    {
 node* insert_fixup(node* root,node* z)    {
     while(z->p->colour!='B')    {
         cout<<"Inside while loop and my key is: "<<z->key<<endl;
-        //printTree(root);
+       // printTree(root);
+        cout<<"Parent key: "<<z->p->key<<endl;
+        cout<<"GrandParent key: "<<(z->p->p->key)<<endl;
+        cout<<(z->p == z->p->p->left);
+        
         if(z->p == z->p->p->left)    {
-            node* y = z->p->p->right;
+            
             cout<<"Inside if loop!\n";
+            node* y = z->p->p->right;
             if(y->colour == 'R') {
-                cout<<"Uncle is red with key: "<<y->key<<" and my parent is the left child"<<endl;
-                y->colour = 'B';
-                z->p->colour = 'B';
-                z->p->p->colour = 'R';
-                z = z->p->p;
-            }
+                    cout<<"Uncle is red with key: "<<y->key<<" and my parent is the left child"<<endl;
+                    y->colour = 'B';
+                    z->p->colour = 'B';
+                    z->p->p->colour = 'R';
+                    z = z->p->p;
+                }
             else    { 
                 if (z == z->p->right)  {
                 cout<<"My parent is the left child and I am the right child.\n";
@@ -228,7 +233,7 @@ int main() {
     root1 = RB_Insert_num(root1,15);
     root1 = RB_Insert_num(root1,5);
     root1 = RB_Insert_num(root1,8);
-    //root1 = RB_Insert_num(root1,4);
+    root1 = RB_Insert_num(root1,4);
     
     printTree(root1);
     //cout<<"Inserting 4"<<endl;
