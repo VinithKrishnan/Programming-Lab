@@ -179,7 +179,48 @@ void BINOMIAL_HEAP_PRINT_ROOTS(heap H)    {
     cout<<endl;
 }   
 
+
+//Reversing sibling pointers for extracting minimum
+void REVERSE_SIBLING_POINTERS(node* prev,node* head)  {
+    if(head!=NULL)  {
+        REVERSE_SIBLING_POINTERS(head,head->sibling);
+        head->sibling = prev;
+    }
+}
+
+//Extracting node with minimum key
+heap BINOMIAL_HEAP_EXTRACT_MIN(heap H)  {
+    node* temp;
+    node* minNode = BINOMIAL_HEAP_MINIMUM(H);
+    if(minNode == H.head)   {   H.head = minNode->sibling;  }
+    else    {
+        temp = H.head;
+        while(temp->sibling!=minNode) temp = temp->sibling;
+        temp->sibling = minNode->sibling;
+    }
+    
+    heap H1 = MAKE_BINOMIAL_HEAP();
+    //Setting H1.head to last child of minNode
+    temp = minNode->child; 
+    while(temp->sibling!=NULL)  {
+        temp = temp->sibling;
+    }
+    H1.head = temp;
+    
+    REVERSE_SIBLING_POINTERS(NULL,minNode->child);
+    return BINOMIAL_HEAP_UNION(H,H1);
+    
+    //return minNode->key;
+}
+
+
 int main(){
+    long int a;
+    long int b;
+    long int c;
+    long int d;
+    long int e;
+    cin >> a >> b >> c >> d >> e;
     heap H = MAKE_BINOMIAL_HEAP();
     H = BINOMIAL_HEAP_INSERT(H,4);
     H = BINOMIAL_HEAP_INSERT(H,2);
@@ -190,6 +231,37 @@ int main(){
     H = BINOMIAL_HEAP_INSERT(H,7);
     H = BINOMIAL_HEAP_INSERT(H,9);
     BINOMIAL_HEAP_PRINT_ROOTS(H);
-    //You can verify the binomial heap by traversing to each node manually since you know the structure!
+    /*Created heap looks like ->
+        
+                   1   (Just one root)
+                  /|\
+                 / | \
+                5  2  6
+               /|  |
+              / |  |
+             7 10  4
+             |
+             |
+             9
+    
+    
+    After extracting minimum ->
+    
+  
+      6-----2-----5   (Three roots)
+            |    /|  
+            |   / |  
+            4  7 10  
+               |
+               |
+               9
+    
+    */
+    H = BINOMIAL_HEAP_EXTRACT_MIN(H);
+    BINOMIAL_HEAP_PRINT_ROOTS(H);
+    //cout<<H.head->sibling->child->sibling->key<<endl;
+    //node* temp = H.head;
+    //cout<<temp->child->sibling->child->p->p->key<<endl;
     return 0;
 }
+
