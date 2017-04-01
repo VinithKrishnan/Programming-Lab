@@ -180,12 +180,6 @@ void BINOMIAL_HEAP_PRINT_ROOTS(heap H)    {
 }   
 
 int main(){
-    long int a;
-    long int b;
-    long int c;
-    long int d;
-    long int e;
-    cin >> a >> b >> c >> d >> e;
     heap H = MAKE_BINOMIAL_HEAP();
     H = BINOMIAL_HEAP_INSERT(H,4);
     H = BINOMIAL_HEAP_INSERT(H,2);
@@ -196,7 +190,6 @@ int main(){
     H = BINOMIAL_HEAP_INSERT(H,7);
     H = BINOMIAL_HEAP_INSERT(H,9);
     BINOMIAL_HEAP_PRINT_ROOTS(H);
-    node* temp = H.head;
-    cout<<temp->child->sibling->child->p->p->key<<endl;
+    //You can verify the binomial heap by traversing to each node manually since you know the structure!
     return 0;
 }
