@@ -60,12 +60,15 @@ void partitionADT :: better_union(int x,int y)  {
     if(rank[rep_x] < rank[rep_y])   {
         parent[rep_x] = rep_y;
         rank[rep_x] = 0;
-        rank[rep_y] += 1;
     }
-    else    {
+    else if (rank[rep_x] == rank[rep_y])   {
         parent[rep_y] = rep_x;
         rank[rep_y] = 0;
         rank[rep_x] += 1;
+    }
+    if(rank[rep_x] > rank[rep_y])   {
+        parent[rep_y] = rep_x;
+        rank[rep_y] = 0;
     }
 }
 
