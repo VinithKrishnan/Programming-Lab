@@ -18,7 +18,7 @@ public:
 	sz = new int[N];
         for(int i=0; i<N; i++)	{
             parent[i] = i;
-  	    sz[i] = 1;
+  	    sz[i] = 0;
 	}
     }
     ~UF()	{
@@ -30,11 +30,7 @@ public:
         int root = p;
         while (root != parent[root])
             root = parent[root];
-        while (p != root) {
-            int newp = parent[p];
-            parent[p] = root;
-            p = newp;
-        }
+     
         return root;
     }
 	// Replace sets containing x and y with their union.
